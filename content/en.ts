@@ -57,8 +57,8 @@ export const en: Dict = {
       },
       sheepland: {
         title: "Sheepland",
-        text: "Site for an eco-farm near Kyiv: cabins, photo sessions and a booking form on the first screen.",
-        alt: "First screen of the Sheepland site with green hills and a booking form",
+        text: "Site for a family farm in the hills near Kyiv: sheep and goats, a farm kitchen, photo sessions and a cabin with a sauna.",
+        alt: "First screen of the Sheepland site with the headline about the hills near Kyiv and a photo of the farm",
       },
       aero8: {
         title: "AERO8",
