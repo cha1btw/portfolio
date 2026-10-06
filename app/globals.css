@@ -1,26 +1,142 @@
 @import "tailwindcss";
 
+/*
+  Monochrome: near-white and near-black with soft greys, so the screenshots of
+  the work carry the colour. The accent is the ink colour itself (black buttons
+  in light, white in dark). The theme comes from <html data-theme>, set before
+  paint from the visitor's choice or system setting (lib/theme.ts).
+  Without JavaScript the media query below still follows the system.
+*/
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --bg: #f7f7f6;
+  --surface: #eeeeec;
+  --ink: #0b0b0c;
+  --muted: #5f5f66;
+  --line: #e0e0dd;
+  --accent: #0b0b0c;
+  --on-accent: #f7f7f6;
+  --glow: #ffffff;
+  color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme="light"]) {
+    --bg: #0a0a0b;
+    --surface: #151517;
+    --ink: #f2f2f0;
+    --muted: #9b9ba3;
+    --line: #26262a;
+    --accent: #f2f2f0;
+    --on-accent: #0a0a0b;
+    --glow: #1d1d21;
+    color-scheme: dark;
   }
 }
 
+:root[data-theme="dark"] {
+  --bg: #0a0a0b;
+  --surface: #151517;
+  --ink: #f2f2f0;
+  --muted: #9b9ba3;
+  --line: #26262a;
+  --accent: #f2f2f0;
+  --on-accent: #0a0a0b;
+  --glow: #1d1d21;
+  color-scheme: dark;
+}
+
+/* `dark:` utilities follow data-theme, not only the system setting. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --color-glow: var(--glow);
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Section anchors stop below the sticky header. */
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
+/*
+  Motion: the hero fades up once on load, sections reveal as they scroll in.
+  Everything is skipped for visitors who ask for reduced motion.
+*/
+@media (prefers-reduced-motion: no-preference) {
+  .enter {
+    animation: enter 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(var(--i, 0) * 90ms);
+  }
+
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: enter linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/*
+  Theme switch: the browser snapshots the page before and after, and the toggle
+  clips one snapshot to a growing or shrinking circle. Default cross-fade is off.
+*/
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+/* Going dark, the old light page shrinks on top; going light, the new page grows on top. */
+:root[data-reveal="dark"]::view-transition-old(root) {
+  z-index: 2;
+}
+:root[data-reveal="dark"]::view-transition-new(root) {
+  z-index: 1;
 }

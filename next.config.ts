@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // A stray package-lock.json in the home folder confuses root detection; pin it to this project.
+  turbopack: { root: __dirname },
 };
 
 export default nextConfig;
