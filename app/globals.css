@@ -90,26 +90,19 @@ section[id] {
 
 /*
   Motion: the hero fades up once on load, sections reveal as they scroll in.
-  Everything is skipped for visitors who ask for reduced motion.
+  By the owner's choice all motion on the site also runs for visitors with
+  "reduce motion" turned on; it is short and moves only on load, scroll or input.
 */
-@media (prefers-reduced-motion: no-preference) {
-  .enter {
-    animation: enter 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
-    animation-delay: calc(var(--i, 0) * 90ms);
-  }
-
-  @supports (animation-timeline: view()) {
-    .reveal {
-      animation: enter linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 40%;
-    }
-  }
+.enter {
+  animation: enter 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--i, 0) * 90ms);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: enter linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 40%;
   }
 }
 

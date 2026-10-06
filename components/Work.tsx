@@ -58,7 +58,7 @@ function Card({
           fill
           sizes={shape === "narrow" ? "(min-width: 768px) 32vw, 100vw" : "(min-width: 768px) 64vw, 100vw"}
           placeholder="blur"
-          className="object-cover object-left-top transition-transform duration-500 ease-out group-hover:scale-[1.03] motion-reduce:transition-none"
+          className="object-cover object-left-top transition-transform duration-500 ease-out group-hover:scale-[1.03]"
         />
       </div>
 

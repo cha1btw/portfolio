@@ -17,7 +17,7 @@ import * as React from "react";
  *
  * Written for this site after the 21st.dev "constellation-grid" (that one needs
  * a 21st.dev account to install). The animation only runs while something
- * moves and the grid is on screen; with reduced motion it stays a still grid.
+ * moves and the grid is on screen.
  */
 
 type Node = { rx: number; ry: number; x: number; y: number; vx: number; vy: number; col: number; row: number };
@@ -38,7 +38,6 @@ export function ConstellationGrid({ spacing = 44, className = "" }: { spacing?: 
     const ctx = canvas?.getContext("2d");
     if (!canvas || !host || !ctx) return;
 
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let nodes: Node[] = [];
     let cols = 0;
     let width = 0;
@@ -198,7 +197,7 @@ export function ConstellationGrid({ spacing = 44, className = "" }: { spacing?: 
     }
 
     function wake() {
-      if (!raf && visible && !reduced) {
+      if (!raf && visible) {
         last = performance.now();
         raf = requestAnimationFrame(frame);
       }
@@ -250,10 +249,8 @@ export function ConstellationGrid({ spacing = 44, className = "" }: { spacing?: 
     });
     themeWatch.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 
-    if (!reduced) {
-      host.addEventListener("pointermove", onMove);
-      host.addEventListener("pointerleave", onLeave);
-    }
+    host.addEventListener("pointermove", onMove);
+    host.addEventListener("pointerleave", onLeave);
 
     return () => {
       cancelAnimationFrame(raf);

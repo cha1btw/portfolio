@@ -9,7 +9,7 @@ import * as React from "react";
  * with a slight spring overshoot, the previous one leaves upwards.
  *
  * Screen readers get the whole sentence once (`srText`); the moving part is hidden
- * from them. With reduced motion the first word just stays.
+ * from them.
  */
 export function RotatingWords({
   words,
@@ -26,7 +26,7 @@ export function RotatingWords({
   const n = words.length;
 
   React.useEffect(() => {
-    if (n < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (n < 2) return;
     const timer = window.setInterval(() => setIndex((i) => (i + 1) % n), interval);
     return () => window.clearInterval(timer);
   }, [n, interval]);
@@ -43,7 +43,7 @@ export function RotatingWords({
           return (
             <span
               key={word}
-              className="col-start-1 row-start-1 whitespace-nowrap transition-[transform,opacity] duration-[600ms] ease-[cubic-bezier(0.34,1.18,0.64,1)] motion-reduce:transition-none"
+              className="col-start-1 row-start-1 whitespace-nowrap transition-[transform,opacity] duration-[600ms] ease-[cubic-bezier(0.34,1.18,0.64,1)]"
               style={{
                 transform: state === "current" ? "none" : state === "previous" ? "translateY(-110%)" : "translateY(110%)",
                 opacity: state === "current" ? 1 : 0,

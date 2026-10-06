@@ -44,8 +44,7 @@ export function ThemeToggle({ label, duration = 700 }: { label: string; duration
     };
 
     const doc = document as TransitionDocument;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!doc.startViewTransition || reduced || !button.current) {
+    if (!doc.startViewTransition || !button.current) {
       // A direct change avoids blank overlays in browsers without View Transitions.
       commit();
       locked.current = false;

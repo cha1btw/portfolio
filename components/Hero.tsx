@@ -29,7 +29,7 @@ export function Hero({ dict }: { dict: Dict }) {
           <p className="enter inline-flex items-center gap-2.5 rounded-lg border border-line bg-bg/70 px-3.5 py-2 text-sm backdrop-blur">
             {/* Real availability state, not decoration. */}
             <span className="relative flex size-2">
-              <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-500 opacity-60 motion-reduce:hidden" />
+              <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-500 opacity-60" />
               <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
             </span>
             {dict.hero.badge}

@@ -12,7 +12,6 @@ English at `/` (default), Ukrainian at `/uk`, CV at `/cv` and `/uk/cv`.
 - **Card deck** of real project screenshots: flick the top card away and it slides back under the pile. Buttons, arrow keys and autoplay that only runs while the deck is on screen.
 - **Work grid, services with starting prices, process, contact block.**
 - **Light and dark theme** with a circular reveal from the toggle (View Transitions API), set before first paint so there is no flash.
-- Everything respects `prefers-reduced-motion`.
 
 ## Stack
 

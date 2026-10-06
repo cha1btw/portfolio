@@ -12,7 +12,6 @@ import { ArrowUpRight, CaretLeft, CaretRight } from "@phosphor-icons/react/dist/
  * - the buttons, left/right arrow keys and autoplay do the same;
  * - autoplay runs only while the deck is on screen, and pauses while the pointer
  *   is over it or right after someone interacts;
- * - with reduced motion cards swap without flying and autoplay is off.
  */
 
 export type DeckSlide = {
@@ -60,12 +59,10 @@ export function CardDeckCarousel({
   const busy = React.useRef(false);
   const lastTouch = React.useRef(0);
   const hovering = React.useRef(false);
-  const reduced = React.useRef(false);
   const inView = React.useRef(false);
   const root = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    reduced.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     // Autoplay only while the deck is visible, so nobody misses the first card.
     const io = new IntersectionObserver(([entry]) => {
       inView.current = entry.isIntersecting;
@@ -81,10 +78,6 @@ export function CardDeckCarousel({
   const sendBack = React.useCallback(
     (dx: number, dy: number) => {
       if (busy.current || n < 2) return;
-      if (reduced.current) {
-        setOrder((o) => [...o.slice(1), o[0]]);
-        return;
-      }
       busy.current = true;
       const len = Math.hypot(dx, dy) || 1;
       setFlight({ id: order[0], x: (dx / len) * 700, y: (dy / len) * 420, entering: false });
@@ -101,10 +94,6 @@ export function CardDeckCarousel({
   const bringBack = React.useCallback(() => {
     if (busy.current || n < 2) return;
     const last = order[n - 1];
-    if (reduced.current) {
-      setOrder((o) => [o[n - 1], ...o.slice(0, n - 1)]);
-      return;
-    }
     busy.current = true;
     setFlight({ id: last, x: -700, y: -60, entering: true });
     setOrder((o) => [o[n - 1], ...o.slice(0, n - 1)]);
@@ -130,7 +119,7 @@ export function CardDeckCarousel({
   React.useEffect(() => {
     if (!autoplay || n < 2) return;
     const timer = window.setInterval(() => {
-      if (reduced.current || document.hidden || !inView.current || hovering.current || drag) return;
+      if (document.hidden || !inView.current || hovering.current || drag) return;
       if (performance.now() - lastTouch.current < autoplay) return;
       sendBack(-1, -0.15);
     }, autoplay);
@@ -224,7 +213,7 @@ export function CardDeckCarousel({
               onPointerCancel={isTop ? onPointerUp : undefined}
               className={`absolute inset-0 overflow-hidden rounded-2xl bg-surface ring-1 ring-line shadow-[0_30px_60px_-28px_rgb(0_0_0/0.5)] ${
                 isTop ? "cursor-grab touch-none active:cursor-grabbing" : ""
-              } ${dragging ? "" : "transition-[transform,opacity] duration-[380ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"}`}
+              } ${dragging ? "" : "transition-[transform,opacity] duration-[380ms] ease-[cubic-bezier(0.22,1,0.36,1)]"}`}
               style={{
                 transform,
                 // The flying card stays on top until it lands under the pile.
@@ -251,7 +240,7 @@ export function CardDeckCarousel({
         <button type="button" onClick={prev} aria-label={prevLabel} className={roundButton}>
           <CaretLeft size={16} weight="bold" aria-hidden />
         </button>
-        <div key={top} className="min-w-0 flex-1 animate-[enter_0.5s_cubic-bezier(0.16,1,0.3,1)_both] motion-reduce:animate-none">
+        <div key={top} className="min-w-0 flex-1 animate-[enter_0.5s_cubic-bezier(0.16,1,0.3,1)_both]">
           <p className="truncate text-xl font-semibold tracking-tight">
             {current.href ? (
               <a href={current.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 hover:underline">
