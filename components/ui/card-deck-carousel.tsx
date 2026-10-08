@@ -1,8 +1,9 @@
 "use client";
 
 import * as React from "react";
-import Image, { type StaticImageData } from "next/image";
+import { type StaticImageData } from "next/image";
 import { ArrowUpRight, CaretLeft, CaretRight } from "@phosphor-icons/react/dist/ssr";
+import { PanImage, panSeconds } from "./pan-image";
 
 /*
  * Card deck carousel, after the 21st.dev "card-deck-carousel" (that one needs a
@@ -10,8 +11,10 @@ import { ArrowUpRight, CaretLeft, CaretRight } from "@phosphor-icons/react/dist/
  * - drag or flick the top card in any direction and it flies off, then slides
  *   back under the pile;
  * - the buttons, left/right arrow keys and autoplay do the same;
+ * - the top card scrolls its full-page screenshot from top to bottom, and autoplay
+ *   waits until it has finished;
  * - autoplay runs only while the deck is on screen, and pauses while the pointer
- *   is over it or right after someone interacts;
+ *   is over it or right after someone interacts.
  */
 
 export type DeckSlide = {
@@ -115,16 +118,21 @@ export function CardDeckCarousel({
     bringBack();
   }, [bringBack]);
 
-  // Autoplay waits while the pointer is over the deck or right after an interaction.
+  // Autoplay: each card stays until its page has scrolled through (plus a short rest),
+  // then moves on, unless the pointer is over the deck or someone just interacted.
   React.useEffect(() => {
     if (!autoplay || n < 2) return;
-    const timer = window.setInterval(() => {
-      if (document.hidden || !inView.current || hovering.current || drag) return;
-      if (performance.now() - lastTouch.current < autoplay) return;
-      sendBack(-1, -0.15);
-    }, autoplay);
-    return () => window.clearInterval(timer);
-  }, [autoplay, n, drag, sendBack]);
+    const dwell = 900 + panSeconds(slides[top].image) * 1000 + 1600;
+    let timer = 0;
+    const tick = () => {
+      const idle =
+        !document.hidden && inView.current && !hovering.current && !drag && performance.now() - lastTouch.current > 1500;
+      if (idle) sendBack(-1, -0.15);
+      else timer = window.setTimeout(tick, 1000);
+    };
+    timer = window.setTimeout(tick, dwell);
+    return () => window.clearTimeout(timer);
+  }, [autoplay, n, top, slides, drag, sendBack]);
 
   function onPointerDown(e: React.PointerEvent<HTMLDivElement>) {
     if (busy.current) return;
@@ -211,7 +219,7 @@ export function CardDeckCarousel({
               onPointerMove={isTop ? onPointerMove : undefined}
               onPointerUp={isTop ? onPointerUp : undefined}
               onPointerCancel={isTop ? onPointerUp : undefined}
-              className={`absolute inset-0 overflow-hidden rounded-2xl bg-surface ring-1 ring-line shadow-[0_30px_60px_-28px_rgb(0_0_0/0.5)] ${
+              className={`pan-frame absolute inset-0 overflow-hidden rounded-2xl bg-surface ring-1 ring-line shadow-[0_30px_60px_-28px_rgb(0_0_0/0.5)] ${
                 isTop ? "cursor-grab touch-none active:cursor-grabbing" : ""
               } ${dragging ? "" : "transition-[transform,opacity] duration-[380ms] ease-[cubic-bezier(0.22,1,0.36,1)]"}`}
               style={{
@@ -221,14 +229,12 @@ export function CardDeckCarousel({
                 opacity: flying || depth > VISIBLE ? 0 : 1,
               }}
             >
-              <Image
+              <PanImage
                 src={slide.image}
                 alt={slide.alt}
-                fill
-                draggable={false}
                 sizes="(min-width: 768px) 42rem, 92vw"
-                placeholder="blur"
-                className="pointer-events-none select-none object-cover object-left-top"
+                mode={isTop ? "auto" : "still"}
+                draggable={false}
               />
             </div>
           );

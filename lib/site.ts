@@ -1,11 +1,11 @@
 import type { StaticImageData } from "next/image";
 import type { ProjectKey } from "@/content/types";
 
-import meliation from "@/public/work/meliation.jpg";
-import humanCapacity from "@/public/work/human-capacity.jpg";
-import sheepland from "@/public/work/sheepland.jpg";
-import aero8 from "@/public/work/aero8.jpg";
-import flowerSeason from "@/public/work/flower-season.jpg";
+import meliation from "@/public/work/meliation.webp";
+import humanCapacity from "@/public/work/human-capacity.webp";
+import sheepland from "@/public/work/sheepland.webp";
+import aero8 from "@/public/work/aero8.webp";
+import flowerSeason from "@/public/work/flower-season.webp";
 import me from "@/public/me.jpg";
 
 // Portrait for the hero circle (square, public/me.jpg). Set to null to show the initials instead.

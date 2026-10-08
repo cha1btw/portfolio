@@ -1,7 +1,7 @@
-import Image from "next/image";
 import { ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import type { Dict } from "@/content/types";
 import { projects, type Project } from "@/lib/site";
+import { PanImage } from "./ui/pan-image";
 
 // Bento rhythm on desktop: wide + narrow, narrow + wide, then one full-width row.
 // Phones get a single column.
@@ -51,14 +51,13 @@ function Card({
         isRow ? "md:grid md:grid-cols-2 md:items-center md:gap-8" : ""
       }`}
     >
-      <div className={`relative overflow-hidden rounded-xl border border-line ${imageBox}`}>
-        <Image
+      {/* Hover scrolls the full-page screenshot from top to bottom. */}
+      <div className={`pan-frame relative overflow-hidden rounded-xl border border-line ${imageBox}`}>
+        <PanImage
           src={project.image}
           alt={copy.alt}
-          fill
           sizes={shape === "narrow" ? "(min-width: 768px) 32vw, 100vw" : "(min-width: 768px) 64vw, 100vw"}
-          placeholder="blur"
-          className="object-cover object-left-top transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+          mode="hover"
         />
       </div>
 

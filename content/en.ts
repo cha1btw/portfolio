@@ -48,27 +48,27 @@ export const en: Dict = {
       meliation: {
         title: "Meliation",
         text: "Concept site for an apparel sourcing agent in Istanbul. Two languages, CSS animations, a one-tap WhatsApp brief.",
-        alt: "First screen of the Meliation site: the headline and a ribbon of fabric",
+        alt: "Full-page screenshot of the Meliation site, from the headline to the contact section",
       },
       humanCapacity: {
         title: "Human Capacity",
         text: "Landing page for an authorial cultural project: an interview archive and charity auctions supporting veterans.",
-        alt: "First screen of the Human Capacity site with a colourful geometric mosaic",
+        alt: "Full-page screenshot of the Human Capacity site with its colourful geometric mosaic",
       },
       sheepland: {
         title: "Sheepland",
         text: "Site for a family farm in the hills near Kyiv: sheep and goats, a farm kitchen, photo sessions and a cabin with a sauna.",
-        alt: "First screen of the Sheepland site with the headline about the hills near Kyiv and a photo of the farm",
+        alt: "Full-page screenshot of the Sheepland site: the farm, prices, gallery and booking form",
       },
       aero8: {
         title: "AERO8",
         text: "Demo site for a fuel station network: fuel prices, station map, filters and a trip calculator.",
-        alt: "First screen of the AERO8 site with a green fuel station",
+        alt: "Full-page screenshot of the AERO8 site: fuel prices, station map and trip calculator",
       },
       flowerSeason: {
         title: "Christmas by Flower Season",
         text: "Site for holiday decor, corporate gifts and team workshops.",
-        alt: "First screen of the Christmas by Flower Season site with a candle and fir branches",
+        alt: "Full-page screenshot of the Christmas by Flower Season site: decor, gifts and workshops",
       },
     },
   },

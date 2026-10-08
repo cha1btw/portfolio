@@ -106,6 +106,32 @@ section[id] {
   }
 }
 
+/*
+  Full-page screenshots: the image sits in a clipping frame (.pan-frame is a size
+  container) and slides up by "image height minus frame height", showing the whole page.
+*/
+.pan-frame {
+  container-type: size;
+}
+.pan {
+  will-change: transform;
+}
+.pan-auto {
+  animation: pan var(--pan-dur, 12s) cubic-bezier(0.45, 0, 0.35, 1) 0.9s both;
+}
+.pan-hover {
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.group:hover .pan-hover {
+  transform: translateY(calc(100cqh - 100%));
+  transition: transform var(--pan-dur, 12s) cubic-bezier(0.45, 0, 0.35, 1);
+}
+@keyframes pan {
+  to {
+    transform: translateY(calc(100cqh - 100%));
+  }
+}
+
 @keyframes enter {
   from {
     opacity: 0;
