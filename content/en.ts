@@ -36,9 +36,6 @@ export const en: Dict = {
     socialLabel: "Contacts",
     photoAlt: "Danyil Rudnytskyi",
     carouselLabel: "My work",
-    prev: "Previous project",
-    next: "Next project",
-    open: "Open site",
   },
   work: {
     title: "Work",
@@ -78,7 +75,7 @@ export const en: Dict = {
     items: [
       {
         title: "Website or landing page",
-        text: "A page that explains what you do and brings in leads. Looks right on phones and loads fast. Multi-page sites from $300.",
+        text: "A page that explains what you do and brings in leads. Looks right on phones and loads fast.",
         examples: ["Service landing page", "Business card site", "Event page"],
       },
       {

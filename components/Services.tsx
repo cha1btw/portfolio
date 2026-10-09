@@ -34,17 +34,17 @@ export function Services({ dict }: { dict: Dict }) {
             );
           })}
 
-          {maintenancePrice != null && (
-            <div className="reveal flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-8 last:pb-0">
-              <div>
-                <h3 className="text-lg font-semibold tracking-tight">{dict.services.maintenance.title}</h3>
-                <p className="mt-2 max-w-[60ch] leading-relaxed text-muted">{dict.services.maintenance.text}</p>
-              </div>
+          <div className="reveal flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-8 last:pb-0">
+            <div>
+              <h3 className="text-lg font-semibold tracking-tight">{dict.services.maintenance.title}</h3>
+              <p className="mt-2 max-w-[60ch] leading-relaxed text-muted">{dict.services.maintenance.text}</p>
+            </div>
+            {maintenancePrice != null && (
               <p className="font-mono text-sm text-muted">
                 ${maintenancePrice} {dict.services.maintenance.perMonth}
               </p>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </section>

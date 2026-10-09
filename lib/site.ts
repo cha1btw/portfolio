@@ -6,6 +6,11 @@ import humanCapacity from "@/public/work/human-capacity.webp";
 import sheepland from "@/public/work/sheepland.webp";
 import aero8 from "@/public/work/aero8.webp";
 import flowerSeason from "@/public/work/flower-season.webp";
+import meliationHero from "@/public/work/hero/meliation.webp";
+import humanCapacityHero from "@/public/work/hero/human-capacity.webp";
+import sheeplandHero from "@/public/work/hero/sheepland.webp";
+import aero8Hero from "@/public/work/hero/aero8.webp";
+import flowerSeasonHero from "@/public/work/hero/flower-season.webp";
 import me from "@/public/me.jpg";
 
 // Portrait for the hero circle (square, public/me.jpg). Set to null to show the initials instead.
@@ -26,16 +31,20 @@ export const githubUrl = `https://github.com/${contacts.github}`;
 export const primaryContactUrl =
   telegramUrl ?? (contacts.email ? `mailto:${contacts.email}` : githubUrl);
 
-// "from $X" per service, in the same order as dict.services.items. null hides the price.
-export const servicePrices: (number | null)[] = [150, 100, 50];
+// Prices are hidden on the site at the owner's request. To show them again, put numbers here:
+// "from $X" per service, in the same order as dict.services.items (null hides one).
+export const servicePrices: (number | null)[] = [null, null, null];
 
-// Monthly support after launch, in USD. null hides the line.
-export const maintenancePrice: number | null = 50;
+// Monthly support after launch, in USD. null hides only the number; the support offer stays.
+export const maintenancePrice: number | null = null;
 
 export type Project = {
   key: ProjectKey;
   url: string;
+  // The whole page, tall: scrolls on the work cards. Refresh both with `npm run shots`.
   image: StaticImageData;
+  // The first screen, 16:9: used by the curved row under the hero.
+  hero: StaticImageData;
   // Shown as a label on the card. null means a real project for a small business.
   status: "concept" | "demo" | "ngo" | null;
   tags: string[];
@@ -47,6 +56,7 @@ export const projects: Project[] = [
     key: "meliation",
     url: "https://meliation-concept.vercel.app",
     image: meliation,
+    hero: meliationHero,
     status: "concept",
     tags: ["Next.js", "Tailwind", "UA / EN"],
   },
@@ -54,6 +64,7 @@ export const projects: Project[] = [
     key: "humanCapacity",
     url: "https://human-capacity.vercel.app",
     image: humanCapacity,
+    hero: humanCapacityHero,
     status: "ngo",
     tags: ["HTML", "CSS", "JavaScript"],
   },
@@ -61,6 +72,7 @@ export const projects: Project[] = [
     key: "sheepland",
     url: "https://sheepland.vercel.app",
     image: sheepland,
+    hero: sheeplandHero,
     status: null,
     tags: ["HTML", "CSS", "JavaScript"],
   },
@@ -68,6 +80,7 @@ export const projects: Project[] = [
     key: "aero8",
     url: "https://aero8-cha1btw.vercel.app",
     image: aero8,
+    hero: aero8Hero,
     status: "demo",
     tags: ["React", "Vite", "TypeScript"],
   },
@@ -75,6 +88,7 @@ export const projects: Project[] = [
     key: "flowerSeason",
     url: "https://flower-season.vercel.app",
     image: flowerSeason,
+    hero: flowerSeasonHero,
     status: null,
     tags: ["Next.js", "Tailwind"],
   },

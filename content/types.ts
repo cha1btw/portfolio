@@ -34,9 +34,6 @@ export type Dict = {
     socialLabel: string;
     photoAlt: string;
     carouselLabel: string;
-    prev: string;
-    next: string;
-    open: string;
   };
   work: {
     title: string;

@@ -1,0 +1,44 @@
+# Keeps the project pictures on the site in step with the live sites.
+# Every day it re-takes the screenshots (scripts/update-shots.mjs); if a site really
+# changed, the new pictures are committed to main and Vercel deploys the site again.
+# Run it by hand any time: Actions tab, "Refresh project screenshots", Run workflow.
+name: Refresh project screenshots
+
+on:
+  schedule:
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-shots
+  cancel-in-progress: false
+
+jobs:
+  shots:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Take screenshots
+        run: npm run shots
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+      - name: Commit changed pictures
+        run: |
+          if [ -z "$(git status --porcelain public/work)" ]; then
+            echo "No visible changes, nothing to commit."
+            exit 0
+          fi
+          # Commit as the repository owner so Vercel accepts the deployment.
+          git config user.name "${{ github.repository_owner }}"
+          git config user.email "${{ github.repository_owner_id }}+${{ github.repository_owner }}@users.noreply.github.com"
+          git add public/work
+          git commit -m "Refresh project screenshots"
+          git push
